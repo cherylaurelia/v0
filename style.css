@@ -184,6 +184,8 @@ nav a:hover { color: var(--muted); }
 
 p { margin: 0 0 16px; }
 
+.list-intro { margin: 0 0 8px; }
+
 .muted { color: var(--muted); }
 
 .name-zh {
@@ -237,8 +239,8 @@ footer .socials { margin: 0 0 12px; }
 .webring .label { color: var(--fg); }
 .webring a { text-decoration: none; }
 .ring-icon { display: inline-flex; }
-.ring-icon img { width: 16px; height: auto; opacity: 0.5; display: block; }
-.ring-icon:hover img { opacity: 0.85; }
+.ring-icon img { width: 20px; height: 20px; opacity: 0.65; display: block; }
+.ring-icon:hover img { opacity: 1; }
 /* invert the black icon in dark mode so it stays visible, still muted */
 :root[data-theme="dark"] .ring-icon img,
 :root.dark .ring-icon img { filter: invert(1); }
