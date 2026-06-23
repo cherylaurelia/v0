@@ -235,3 +235,13 @@ footer .socials { margin: 0 0 12px; }
   margin-bottom: 12px;
 }
 .webring .label { color: var(--fg); }
+.webring a { text-decoration: none; }
+.ring-icon { display: inline-flex; }
+.ring-icon img { width: 16px; height: auto; opacity: 0.5; display: block; }
+.ring-icon:hover img { opacity: 0.85; }
+/* invert the black icon in dark mode so it stays visible, still muted */
+:root[data-theme="dark"] .ring-icon img,
+:root.dark .ring-icon img { filter: invert(1); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .ring-icon img { filter: invert(1); }
+}
