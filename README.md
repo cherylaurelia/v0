@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="favicon.svg" alt="巫 favicon" width="64">
+![favicon](https://raw.githubusercontent.com/cherylaurelia/v0/main/favicon.svg)
 
 # v0
 
