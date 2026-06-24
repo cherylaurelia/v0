@@ -4,10 +4,11 @@
 
 # v0
 
-### my personal website :)
+### the my personal website :)
 
-check it out at cherylaurelia.com
+check it out at <a href="https://cherylaurelia.com" target="_blank">cherylaurelia.com</a>.
 
 <br />
 
 </div>
+
