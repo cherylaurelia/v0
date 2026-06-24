@@ -41,20 +41,56 @@
     });
   }
 
+  // count a pageview in GoatCounter (no-op until the analytics script loads)
+  function countView() {
+    if (window.goatcounter && window.goatcounter.count) {
+      window.goatcounter.count({ path: location.pathname, title: document.title });
+    }
+  }
+
   document.querySelectorAll('[data-tab]').forEach(function (el) {
     el.addEventListener('click', function (e) {
       e.preventDefault();
       var name = el.getAttribute('data-tab');
-      if (currentName() !== name) history.pushState(null, '', '/' + name);
+      var changed = currentName() !== name;
+      if (changed) history.pushState(null, '', '/' + name);
       showTab(name);
       window.scrollTo(0, 0);
+      if (changed) countView();
     });
   });
 
   // back/forward buttons
   window.addEventListener('popstate', function () {
     showTab(currentName());
+    countView();
   });
+
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    // cursor-reactive stars: subtle parallax driven by --px / --py
+    var ticking = false;
+    window.addEventListener('mousemove', function (e) {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () {
+        var s = document.documentElement.style;
+        s.setProperty('--px', (e.clientX / window.innerWidth - 0.5).toFixed(3));
+        s.setProperty('--py', (e.clientY / window.innerHeight - 0.5).toFixed(3));
+        ticking = false;
+      });
+    });
+
+    // sparkle on click
+    document.addEventListener('click', function (e) {
+      var spark = document.createElement('div');
+      spark.className = 'spark';
+      spark.textContent = '✦';
+      spark.style.left = e.clientX + 'px';
+      spark.style.top = e.clientY + 'px';
+      document.body.appendChild(spark);
+      setTimeout(function () { spark.remove(); }, 700);
+    });
+  }
 
   // restore a deep link that came in via the 404.html bounce
   try {

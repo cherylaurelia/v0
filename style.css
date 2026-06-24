@@ -5,7 +5,7 @@
   --accent: #2b5cff;
   --border: #e6e6e3;
   --maxw: 640px;
-  --grid: rgba(0, 0, 0, 0.015);
+  --star: rgba(0, 0, 0, 0.45);
 }
 
 /* dark values, shared by auto + manual override */
@@ -16,7 +16,7 @@
   --muted: #9a9a96;
   --accent: #7aa2ff;
   --border: #2a2a28;
-  --grid: rgba(255, 255, 255, 0.018);
+  --star: rgba(255, 255, 255, 0.85);
 }
 
 /* follow OS only when user hasn't picked a theme */
@@ -27,7 +27,7 @@
     --muted: #9a9a96;
     --accent: #7aa2ff;
     --border: #2a2a28;
-    --grid: rgba(255, 255, 255, 0.018);
+    --star: rgba(255, 255, 255, 0.85);
   }
 }
 
@@ -50,17 +50,63 @@ body {
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-/* square grid overlay (sits above the bg, below content) */
-body::before {
+/* twinkling stars (two layers blink out of sync), behind content */
+body::before,
+body::after {
   content: "";
   position: fixed;
-  inset: 0;
+  inset: -60px; /* extra room so cursor parallax never exposes an edge */
   z-index: 0;
   pointer-events: none;
+  background-repeat: repeat;
+  transition: transform 0.5s ease-out;
+}
+body::before {
+  transform: translate(calc(var(--px, 0) * -10px), calc(var(--py, 0) * -10px));
   background-image:
-    linear-gradient(to right, var(--grid) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
-  background-size: 32px 32px;
+    radial-gradient(1.5px 1.5px at 25px 30px, var(--star), transparent),
+    radial-gradient(1px 1px at 80px 120px, var(--star), transparent),
+    radial-gradient(1px 1px at 150px 65px, var(--star), transparent),
+    radial-gradient(1.5px 1.5px at 185px 160px, var(--star), transparent),
+    radial-gradient(1px 1px at 110px 22px, var(--star), transparent),
+    radial-gradient(1px 1px at 45px 175px, var(--star), transparent);
+  background-size: 200px 200px;
+  animation: twinkle 4s ease-in-out infinite;
+}
+body::after {
+  transform: translate(calc(var(--px, 0) * -22px), calc(var(--py, 0) * -22px));
+  background-image:
+    radial-gradient(1px 1px at 60px 50px, var(--star), transparent),
+    radial-gradient(1.5px 1.5px at 220px 95px, var(--star), transparent),
+    radial-gradient(1px 1px at 160px 200px, var(--star), transparent),
+    radial-gradient(1px 1px at 285px 255px, var(--star), transparent),
+    radial-gradient(1px 1px at 30px 270px, var(--star), transparent);
+  background-size: 320px 320px;
+  animation: twinkle 6s ease-in-out infinite 1.5s;
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 0.7; }
+}
+@media (prefers-reduced-motion: reduce) {
+  body::before, body::after { animation: none; opacity: 0.28; }
+}
+
+/* sparkle on click — bright & shiny */
+.spark {
+  position: fixed;
+  z-index: 50;
+  color: #ffe27a;
+  font-size: 11px;
+  line-height: 1;
+  pointer-events: none;
+  text-shadow: 0 0 4px #fff, 0 0 8px currentColor, 0 0 14px currentColor;
+  animation: spark 0.75s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+}
+@keyframes spark {
+  0%   { transform: translate(-50%, -50%) scale(0.2) rotate(-25deg); opacity: 0; }
+  25%  { opacity: 1; }
+  100% { transform: translate(-50%, -150%) scale(1.5) rotate(40deg); opacity: 0; }
 }
 
 .wrap {
