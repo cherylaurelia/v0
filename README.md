@@ -4,7 +4,7 @@
 
 # v0
 
-### the prototype of my personal website :)
+### the prototype of my personal website
 
 check it out at <a href="https://cherylaurelia.com" target="_blank">cherylaurelia.com</a>.
 
